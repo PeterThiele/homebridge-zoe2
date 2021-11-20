@@ -3,6 +3,10 @@ const jwt = require('jsonwebtoken')
 const cookie = require('cookie')
 const setCookie = require('set-cookie-parser')
 const ENDPOINT = "https://www.services.renault-ze.com/api"
+const kamareonURL = "https://api-wired-prod-1-euw1.wrd-aws.com"
+const kamareonAPI = "Ae9FDWugRxZQAGm3Sxgk7uJn6Q4CGEA2"
+const gigyaURL = "https://accounts.eu1.gigya.com"
+const gigyaAPI = "3_7PLksOyBRkHv126x5WhHb-5pqC1qFR8pQjxSeLB6nhAnPERTUlwnYoznHSxwX668"
 
 function APIWrapper({username, password}) {
   this.user = {
@@ -19,8 +23,7 @@ function APIWrapper({username, password}) {
 APIWrapper.prototype.login = function () {
   return new Promise(async (resolve, reject) => {
     try {
-      const { username, password } = this.user
-      const res = await axios.post(ENDPOINT + "/user/login", { username, password })
+      const res = await axios.post(gigyaURL + "/accounts.login?loginID='" + username + '&password=' + password + '&include=data&apiKey=' + gigyaAPI)
       const { token, xsrfToken, user } = res.data
       this.jwt = token
       this.xsrfToken = xsrfToken
